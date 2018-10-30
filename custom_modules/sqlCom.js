@@ -7,8 +7,8 @@ const dbName = 'expressToDo'
 
 const config = {
     host: "us-cdbr-east-04.cleardb.com",
-    user: "b32fa719432e40",
-    password: "87de815a",
+    user: "b186f7d42a6a43",
+    password: "09481fe2",
     database: "heroku_213e6e7b74fb177"
 }
 
