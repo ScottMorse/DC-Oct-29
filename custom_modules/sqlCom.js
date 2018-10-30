@@ -6,7 +6,7 @@ let bcrypt = require('bcrypt')
 const dbName = 'expressToDo'
 
 const config = {
-    host: "us-cdbr-east-04.cleardb.com",
+    host: "us-cdbr-iron-east-01.cleardb.net",
     user: "b186f7d42a6a43",
     password: "09481fe2",
     database: "heroku_213e6e7b74fb177"
