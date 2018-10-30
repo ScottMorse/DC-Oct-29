@@ -6,9 +6,10 @@ let bcrypt = require('bcrypt')
 const dbName = 'expressToDo'
 
 const config = {
-    host: "localhost",
-    user: "root",
-    password: ""
+    host: "us-cdbr-east-04.cleardb.com",
+    user: "b32fa719432e40",
+    password: "87de815a",
+    database: "heroku_213e6e7b74fb177"
 }
 
 function wrapString(string){
@@ -148,23 +149,17 @@ function deleteTable(tbName){
 let db
 function useDb(){
     db = new Database(config)
-    console.log('SQL using database ' + dbName)
-    return db.query("USE " + dbName).then(after => {
-        runCommand(selectTable('users')).catch(err => {
-            runCommand(createTable('users',"( ID int NOT NULL AUTO_INCREMENT, username VARCHAR(20) NOT NULL , email VARCHAR(255) NOT NULL, pswd VARCHAR(255) NOT NULL, fullname VARCHAR(30), PRIMARY KEY (ID) )"))
-              .catch(err => console.log(err))
-        })
-        runCommand(selectTable('tasks')).catch(err => {
-            runCommand(createTable('tasks',"( ID int NOT NULL AUTO_INCREMENT, UID int NOT NULL, taskname VARCHAR(20) NOT NULL, taskdetails VARCHAR(255), datecreated DATETIME NOT NULL, datecompleted DATETIME, completed TINYINT(1) NOT NULL DEFAULT 0, priority varchar(4), PRIMARY KEY (ID) )"))
-              .catch(err => console.log(err))
-        })
+    runCommand(selectTable('users')).catch(err => {
+        runCommand(createTable('users',"( ID int NOT NULL AUTO_INCREMENT, username VARCHAR(20) NOT NULL , email VARCHAR(255) NOT NULL, pswd VARCHAR(255) NOT NULL, fullname VARCHAR(30), PRIMARY KEY (ID) )"))
+            .catch(err => console.log(err))
+    })
+    runCommand(selectTable('tasks')).catch(err => {
+        runCommand(createTable('tasks',"( ID int NOT NULL AUTO_INCREMENT, UID int NOT NULL, taskname VARCHAR(20) NOT NULL, taskdetails VARCHAR(255), datecreated DATETIME NOT NULL, datecompleted DATETIME, completed TINYINT(1) NOT NULL DEFAULT 0, priority varchar(4), PRIMARY KEY (ID) )"))
+            .catch(err => console.log(err))
     })
 }
 
-useDb().catch(err => {
-    runCommand('CREATE DATABASE ' + dbName)
-    useDb()
-})
+useDb()
 
 exports.runCommand = (comm) => {return runCommand(comm)}
 exports.selectTable = (tbName,columnArr,limit,limitOffset) => {return runCommand(selectTable(tbName,columnArr,limit,limitOffset))}
