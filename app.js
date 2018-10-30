@@ -38,4 +38,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.set('port', process.env.PORT || 8080)
+
 module.exports = app;
