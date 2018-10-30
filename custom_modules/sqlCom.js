@@ -15,6 +15,10 @@ function wrapString(string){
     return "'" + string + "'"
 }
 
+function toDateTime(date){
+    return date.toISOString().slice(0, 19).replace('T', ' ')
+}
+
 class Database {
     constructor( config ) {
         this.connection = mysql.createConnection( config );
@@ -81,12 +85,17 @@ function createTable(tbName,argString){
 }
 
 runCommand(selectTable('users')).catch(err => {
-    runCommand(createTable('users',"( ID int NOT NULL AUTO_INCREMENT, username varchar(20) NOT NULL , email varchar(255) NOT NULL, pswd varchar(255) NOT NULL, fullname varchar(30), instrument varchar(50), aboutme varchar(280), location varchar(50), PRIMARY KEY (ID) )"))
+    runCommand(createTable('users',"( ID int NOT NULL AUTO_INCREMENT, username VARCHAR(20) NOT NULL , email VARCHAR(255) NOT NULL, pswd VARCHAR(255) NOT NULL, fullname VARCHAR(30), PRIMARY KEY (ID) )"))
+      .catch(err => console.log(err))
+})
+
+runCommand(selectTable('tasks')).catch(err => {
+    runCommand(createTable('tasks',"( ID int NOT NULL AUTO_INCREMENT, UID int NOT NULL, taskname VARCHAR(20) NOT NULL, taskdetails VARCHAR(255), datecreated DATETIME NOT NULL, datecompleted DATETIME, completed TINYINT(1) NOT NULL DEFAULT 0, priority varchar(4), PRIMARY KEY (ID) )"))
       .catch(err => console.log(err))
 })
 
 function insertData(tbName,columnArr,valueArr){
-    return "INSERT INTO " + tbName + " (" + columnArr.join(", ") + ") VALUES " + "(" + valueArr.join(", ") + ")"
+    return "INSERT INTO " + tbName + " ( " + columnArr.join(", ") + " ) VALUES " + "( " + valueArr.join(", ") + " )"
 }
 
 function updateColumns(tbName,valueArr,valueColumnArr,filterValue,filterColumn){
@@ -164,6 +173,7 @@ exports.deleteRecords = (tbName,filterColumn,filterValue) => {return runCommand(
 exports.deleteTable = (tbName) => {return runCommand(deleteTable(tbName))}
 
 exports.wrapString = (string) => {return wrapString(string)}
+exports.toDateTime = (date) => {return toDateTime(date)}
 
 exports.encryptPassword = (pswd) => {return bcrypt.hash(pswd, 5)}
 exports.comparePasswords = (givenPswd,dbPswd) => {return bcrypt.compare(givenPswd, dbPswd)}

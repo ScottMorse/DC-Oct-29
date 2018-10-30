@@ -2,6 +2,29 @@ doctype html
 html
   head
     title To Do (Express)
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/global.css')
+    link(rel='stylesheet', href='/stylesheets/index.css')
   body
-    div What hath God wrought?
+    div#page-wrap
+      h1 TO DOOOOO
+      div#auths-wrap
+        div#reg-wrap.auth-wrap
+          h2#reg-title.auth-title Register
+          div#reg-blame.blame=regBlame
+          div#reg-form-wrap.auth-form-wrap
+            form#reg-form.auth-form(method='post' action='/register')
+              input(type='text' placeholder='Your username' name='regUsername' required)
+              input(type='text' placeholder='example@email.com' name='regEmail' required)
+              input(type='text' placeholder='example@email.com (Confirm)' required)
+              input(type='password' placeholder="*******" name='regPswd' required)
+              input(type='password' placeholder="******* (Confirm)")
+              input.submit(type='submit' value="Register" name="submit")
+        div#log-wrap.auth-wrap
+          h2#log-title.auth-title Login
+          div#log-blame.blame=logBlame
+          div#log-form-wrap.auth-form-wrap
+            form#log-form.auth-form(method='post' action='/login' required)
+              input(type='text' placeholder='Your username' name='logUsername' required)
+              input(type='password' placeholder="*******" name='logPswd')
+              input.submit(type='submit' value="Login" name="submit")
+    script(src='/scripts/indexStatic.js')

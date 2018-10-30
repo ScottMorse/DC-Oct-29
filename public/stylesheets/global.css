@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Londrina+Shadow|Quicksand:400,500');
+
+html{
+    line-height: 1;
+    font-family: Quicksand;
+    background-color: rgb(141, 226, 159);
+  }
+  
+#page-wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+h1 {
+    font-family: 'Londrina Shadow';
+    background: whitesmoke;
+    padding: 10px;
+    box-shadow: 0 0 20px 10px whitesmoke;
+    border-radius: 5% / 20%;
+    font-size: 75px;
+    width: 320px;
+    text-align: center;
+    user-select: none;
+}
+
+* {
+    font-family: inherit;
+}
+
+body{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+[type=submit]:hover{
+    cursor: pointer;
+}
+
+[type=submit]{
+    outline:none;
+    -webkit-appearance: button;
+}
