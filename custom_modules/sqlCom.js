@@ -41,6 +41,7 @@ function handleDisconnect() {
         throw err;                                  // server variable configures this)
       }
     });
+    console.log('success here')
     return connection
 }
 
