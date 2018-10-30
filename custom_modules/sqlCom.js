@@ -41,14 +41,13 @@ function handleDisconnect() {
         throw err;                                  // server variable configures this)
       }
     });
-    console.log('success here')
+    console.log(connection.state)
     return connection
 }
 
 class Database {
     constructor( config ) {
         this.connection = handleDisconnect();
-        console.log('SQL connection successful')
     }
     query( sql, args ) {
         return new Promise( ( resolve, reject ) => {
@@ -72,7 +71,7 @@ class Database {
 }
 
 function runCommand(comm){
-    // console.log(comm)
+    console.log(db.connection.state)
     return db.query(comm)
 }
 
