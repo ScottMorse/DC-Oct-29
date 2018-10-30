@@ -14,8 +14,8 @@ html
           div#reg-form-wrap.auth-form-wrap
             form#reg-form.auth-form(method='post' action='/register')
               input(type='text' placeholder='Your username' name='regUsername' required)
-              input(type='text' placeholder='example@email.com' name='regEmail' required)
-              input(type='text' placeholder='example@email.com (Confirm)' required)
+              input.email(type='text' placeholder='example@email.com' name='regEmail' required)
+              input.email(type='text' placeholder='example@email.com (confirm)' required)
               input(type='password' placeholder="*******" name='regPswd' required)
               input(type='password' placeholder="******* (Confirm)")
               input.submit(type='submit' value="Register" name="submit")

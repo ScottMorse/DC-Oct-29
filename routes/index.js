@@ -30,8 +30,16 @@ router.post('/register', function(req,res,next){
               sql.wrapString(email),
               sql.wrapString(pswdHash)
          ]).then(result =>{
-            res.redirect('/')
-            console.log("User added.")
+            sql.selectTable('users').then(userTableRows => {
+              userTableRows.forEach(row => {
+                if(username == row.username){
+                  user = row
+                  res.cookie('TODOEXPRESSUSER',user.ID + "::" + user.username)
+                    res.redirect('/dashboard')
+                    console.log('User added.')
+                }
+              })
+            })
          })
       }
       else{
@@ -59,7 +67,16 @@ router.post('/register', function(req,res,next){
             sql.wrapString(email),
             sql.wrapString(pswdHash)
           ]).then(result =>{
-              res.redirect('/')
+            sql.selectTable('users').then(userTableRows => {
+              userTableRows.forEach(row => {
+                if(username == row.username){
+                   user = row
+                   res.cookie('TODOEXPRESSUSER',user.ID + "::" + user.username)
+                    res.redirect('/dashboard')
+                    console.log('User added.')
+                }
+              })
+            })
           })
          }
       }

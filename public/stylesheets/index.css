@@ -45,6 +45,10 @@
   margin: 0;
 }
 
+.email::placeholder{
+  font-size: 16px;
+}
+
 @media screen and (min-width: 768px){
   #auths-wrap{
     flex-direction: row;

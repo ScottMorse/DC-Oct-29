@@ -16,7 +16,9 @@ function wrapString(string){
 }
 
 function toDateTime(date){
-    return date.toISOString().slice(0, 19).replace('T', ' ')
+    const offset = (date.getTimezoneOffset()/60) * -3600000
+    const newD = new Date(date.getTime() + offset)
+    return newD.toISOString().slice(0, 19).replace('T', ' ')
 }
 
 class Database {
@@ -44,15 +46,6 @@ class Database {
         } );
     }
 }
-
-let db
-function useDb(){
-    db = new Database(config)
-    console.log('SQL using database ' + dbName)
-    return db.query("USE " + dbName)
-}
-
-useDb()
 
 function runCommand(comm){
     // console.log(comm)
@@ -83,16 +76,6 @@ function createTable(tbName,argString){
     comm = 'CREATE TABLE ' + tbName + argString
     return comm
 }
-
-runCommand(selectTable('users')).catch(err => {
-    runCommand(createTable('users',"( ID int NOT NULL AUTO_INCREMENT, username VARCHAR(20) NOT NULL , email VARCHAR(255) NOT NULL, pswd VARCHAR(255) NOT NULL, fullname VARCHAR(30), PRIMARY KEY (ID) )"))
-      .catch(err => console.log(err))
-})
-
-runCommand(selectTable('tasks')).catch(err => {
-    runCommand(createTable('tasks',"( ID int NOT NULL AUTO_INCREMENT, UID int NOT NULL, taskname VARCHAR(20) NOT NULL, taskdetails VARCHAR(255), datecreated DATETIME NOT NULL, datecompleted DATETIME, completed TINYINT(1) NOT NULL DEFAULT 0, priority varchar(4), PRIMARY KEY (ID) )"))
-      .catch(err => console.log(err))
-})
 
 function insertData(tbName,columnArr,valueArr){
     return "INSERT INTO " + tbName + " ( " + columnArr.join(", ") + " ) VALUES " + "( " + valueArr.join(", ") + " )"
@@ -161,6 +144,27 @@ function deleteRecords(tbName,filterColumn,filterValue){
 function deleteTable(tbName){
     return "DROP TABLE IF EXISTS " + tbName
 }
+
+let db
+function useDb(){
+    db = new Database(config)
+    console.log('SQL using database ' + dbName)
+    return db.query("USE " + dbName).then(after => {
+        runCommand(selectTable('users')).catch(err => {
+            runCommand(createTable('users',"( ID int NOT NULL AUTO_INCREMENT, username VARCHAR(20) NOT NULL , email VARCHAR(255) NOT NULL, pswd VARCHAR(255) NOT NULL, fullname VARCHAR(30), PRIMARY KEY (ID) )"))
+              .catch(err => console.log(err))
+        })
+        runCommand(selectTable('tasks')).catch(err => {
+            runCommand(createTable('tasks',"( ID int NOT NULL AUTO_INCREMENT, UID int NOT NULL, taskname VARCHAR(20) NOT NULL, taskdetails VARCHAR(255), datecreated DATETIME NOT NULL, datecompleted DATETIME, completed TINYINT(1) NOT NULL DEFAULT 0, priority varchar(4), PRIMARY KEY (ID) )"))
+              .catch(err => console.log(err))
+        })
+    })
+}
+
+useDb().catch(err => {
+    runCommand('CREATE DATABASE ' + dbName)
+    useDb()
+})
 
 exports.runCommand = (comm) => {return runCommand(comm)}
 exports.selectTable = (tbName,columnArr,limit,limitOffset) => {return runCommand(selectTable(tbName,columnArr,limit,limitOffset))}

@@ -11,24 +11,26 @@ html
       div#task-form-wrap
         h2 Add A Task:
         form#add-task-form(method='post' action='/dashboard/addTask' autocomplete='off')
-          div.option-wrap
-            div.input-title Task name
-            input(type="text" name="taskName" maxlength=30 required)
-          div.option-wrap
-            div.input-title Details
-            input(type="text" name="taskDetails" placeholder="Optional" maxlength=255)
-          div.option-wrap
-            div.input-title.priority-title Priority
-            select(name="taskPriority")
-              option Low
-              option High
-        input#add-button(type="submit" value="Add Task")
+          div#task-form-subwrap
+            div.option-wrap
+              div.input-title Task name
+              input(type="text" name="taskName" maxlength=30 required)
+            div.option-wrap
+              div.input-title Details
+              input(type="text" name="taskDetails" placeholder="Optional" maxlength=255)
+            div.option-wrap
+              div.input-title.priority-title Priority
+              select(name="taskPriority")
+                option Low
+                option High
+          input#add-button(type="submit" value="Add Task")
 
       div#tasks
         each val in tasks
           div.task-wrap(class=val.completed ? 'completed':'' class=val.priority)
             div.task-subwrap
               div.task-name-wrap
+                div.high-priority
                 div.task-title=val.taskname
                 div.task-details=val.taskdetails
             div.task-subwrap.date-wrap
@@ -36,11 +38,12 @@ html
               div.date-created=val.datecreated
               div=val.datecompleted ? 'Completed:':''
               div.date-completed=val.datecompleted
-            div.task-subwrap
+            div.task-subwrap.task-buttons
               form.complete-task-form(method="post" action='/dashboard/comTask') 
                 input.taskId(type="text" value=val.ID name="taskID")
                 input.task-control(type="submit" value="Complete")
               form.remove-task-form(method="post" action='/dashboard/remTask') 
                 input.taskId(type="text" value=val.ID name="taskID")
                 input.task-control(type="submit" value="X Remove")
+        h2#completed-title
   script(src="/scripts/dashboardStatic.js")

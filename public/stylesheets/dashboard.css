@@ -25,10 +25,18 @@ h1 {
     border: 5px solid rgb(188, 222, 253);
     background-color: whitesmoke;
     border-radius: 8% / 15%;
+    width: 90vw;
 }
 
 #add-task-form{
     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#task-form-subwrap{
+    display: flex;
+    flex-direction: column;
 }
 
 .option-wrap{
@@ -59,10 +67,14 @@ h1 {
     font-weight: 500;
     font-size: 20px;
     border-radius: 5% / 20%;
+    width: 100px;
 }
 
 #tasks{
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .task-wrap{
@@ -72,19 +84,22 @@ h1 {
     background-color: whitesmoke;
     margin: 10px;
     padding: 10px;
-    border-radius: 5% / 20%;
+    border-radius: 5% / 10%;
+    width: 90vw;
+    min-height: 70px;
+    flex-direction: column;
 }
 
 .task-subwrap{
     display: flex;
     margin: 10px;
-    width: 33%;
 }
 
 .task-title{
     font-weight: 500;
     font-size: 25px;
     margin-bottom: 5px;
+    margin-top: 10px;
 }
 
 .task-details{
@@ -104,4 +119,52 @@ h1 {
     font-weight: 500;
     font-size: 16px;
     border-radius: 5% / 20%;
+}
+
+.high-priority{
+    display: none;
+    position: absolute;
+    background-color: red;
+    color: whitesmoke;
+    padding: 3px;
+    opacity: 0.5;
+    font-weight: 500;
+    font-size: 15px;
+    transform: translate(45px,-20px);
+    border-radius: 5% / 20%;
+}
+
+@media screen and (min-width: 480px){
+    .task-wrap{
+        flex-direction: row;
+    }
+    .task-buttons{
+        display: flex;
+        flex-direction: column;
+    }
+    .task-buttons > * {
+        margin-bottom: 5px;
+    }
+}
+
+@media screen and (min-width: 585px){
+    #task-form-subwrap{
+        flex-direction: row;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .task-wrap{
+        width: 700px;
+    }
+    #task-form-wrap{
+        width: unset;
+    }
+    .task-subwrap{
+        width: 33%;
+    }
+    .task-buttons{
+        flex-direction: row;
+        justify-content: flex-end;
+    }
 }
